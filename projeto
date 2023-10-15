@@ -1,0 +1,255 @@
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <stdlib.h>
+
+int main()
+{
+    int acabouDeVez = 0, dica = 1; // flag pra quando o jogo vai acabar de vez / flag pra dar uma dica na primeira jogada
+    int pont1 = 0, pont2 = 0; // pontuacao dos jogadores
+    char sim[40]; // so um lugar pra armazenar a primeira resposta na linha 17
+
+    printf("JOGO DA VELHA\n"
+           "\nREGRAS"
+           "\nParticipam duas pessoas,"
+           " que jogam alternadamente, preenchendo cada um dos espacos vazios."
+           " Cada participante deve usar um simbolo (X ou O)."
+           " Vence o jogador que conseguir formar primeiro uma linha com tres "
+           "simbolos iguais,"
+           " seja ela na horizontal, vertical ou diagonal.\n"
+           "\nINSTRUCOES:\n"
+           "O player 1 vai usar \"X\" e o player 2 vai usar \"O\","
+           " escolham quem sera cada player. O primeiro a jogar sera escolhido "
+           "aleatoriamente por mim."
+           "\nPara fazer suas jogadas, sera utilizado um sistema de coordenadas, "
+           "exemplificado a seguir:\n\n");
+
+    printf("          A   B   C\n\n"
+
+           "      1  |A1 |B1 |C1 |\n"
+           "         -------------\n"
+           "      2  |A2 |B2 |C2 |\n"
+           "         -------------\n"
+           "      3  |A3 |B3 |C3 |\n\n"); // tabuleiro mostrando as coordenadas
+
+    printf("Resumindo, se voce quiser marcar a primeira casa na primeira coluna, vai escrever \"A1\", se quiser a segunda casa da terceira coluna, \"B3\" e assim por diante. Tudo certo?\n");
+    scanf("%s", sim);
+    printf("\n");
+
+    while (acabouDeVez == 0)
+    {
+        srand(time(NULL));
+        int num;
+        int acabou = 0, player; // flag para quando cada rodada vai acabar / flag para qual player vai jogar em cada round
+        char p1[3], letra, c; // armazena a coordenada jogada / armazena a letra que vai ser usada "X" ou "O" / recebe a resposta se os players vao querer jogar mais uma rodada ou nao no final
+        char jogo[] = "           A   B   C\n\n      1  |   |   |   |\n         -------------\n      2  |   |   |   |\n         -------------\n      3  |   |   |   |\n\n"; // armazena a string que contem o tabuleiro
+
+        num = rand() % 10;
+        if (num % 2 == 0) // se o numero pseudoaleatorio gerado entre 0 e 9 for par, player 1 joga primeiro, se for impar player 2
+        {
+            player = 1;
+            printf("E quem vai comecar..................... PLAYER 1 VOCE JOGA PRIMEIRO!!\n");
+        }
+        else
+        {
+            player = 2;
+            printf("PLAYER 2, dessa vez voce levou a melhor, vai ser o primeiro a jogar!\n");
+        }
+
+        printf("Bom, entao vamos comecar:\n\n");
+        printf("%s", jogo);
+
+
+        while (acabou == 0) // enquanto a flag acabou nao mudar pra 1, os rounds continuam
+        {
+            if (player == 1) // com base na linha 29, se o player 1 for jogar, a letra usada nesse round e "X", se for o player 2, "O"
+            {
+                printf("Player 1, faca sua jogada:\n");
+                letra = 'X';
+            }
+            else
+            {
+                printf("Player 2, faca sua jogada:\n");
+                letra = 'O';
+            }
+
+            if (dica == 1) // da uma dica na primeira jogada, caso os players nao tenham entendido o que e pra fazer
+            {
+                printf("(digita a coordenada xD)\n");
+                dica = 0;
+            }
+            scanf("%s", &p1); // recebe a coordenada da posicao que foi escolhida
+
+
+            if (p1[0] == 'A' || p1[0] == 'a') // ve se a coordenada esta na coluna A
+            {
+                if (strcmp(p1, "A1") == 0 || strcmp(p1, "a1") == 0) // ve se a coordenada esta na primeira posicao
+                {
+                    if (jogo[33] != ' ') // se a posicao escolhida ja foi jogada anteriormente, o jogador tem q jogar denovo
+                    {
+                        printf("HAHA espertinho, essa ja foi, joga denovo ai.\n");
+                        continue;
+                    }
+                    else
+                        jogo[33] = letra; // se nao, o espaço fica marcado com a letra do respectivo player
+                }
+                else if (strcmp(p1, "A2") == 0 || strcmp(p1, "a2") == 0)
+                {
+                    if (jogo[79] != ' ')
+                    {
+                        printf("HAHA espertinho, essa ja foi, joga denovo ai.\n");
+                        continue;
+                    }
+                    else
+                        jogo[79] = letra;
+                }
+                else if (strcmp(p1, "A3") == 0 || strcmp(p1, "a3") == 0)
+                {
+                    if (jogo[125] != ' ')
+                    {
+                        printf("HAHA espertinho, essa ja foi, joga denovo ai.\n");
+                        continue;
+                    }
+                    else
+                        jogo[125] = letra;
+                }
+                else // se o player digitar uma coordenada invalida, joga denovo
+                {
+                    printf("Jogada invalida, joga denovo ai pateta.\n");
+                    continue;
+                }
+            }
+            else if (p1[0] == 'B' || p1[0] == 'b')
+            {
+                if (strcmp(p1, "B1") == 0 || strcmp(p1, "b1") == 0)
+                {
+                    if (jogo[37] != ' ')
+                    {
+                        printf("HAHA espertinho, essa ja foi, joga denovo ai.\n");
+                        continue;
+                    }
+                    else
+                        jogo[37] = letra;
+                }
+                else if (strcmp(p1, "B2") == 0 || strcmp(p1, "b2") == 0)
+                {
+                    if (jogo[83] != ' ')
+                    {
+                        printf("HAHA espertinho, essa ja foi, joga denovo ai.\n");
+                        continue;
+                    }
+                    else
+                        jogo[83] = letra;
+                }
+                else if (strcmp(p1, "B3") == 0 || strcmp(p1, "b3") == 0)
+                {
+                    if (jogo[129] != ' ')
+                    {
+                        printf("HAHA espertinho, essa ja foi, joga denovo ai.\n");
+                        continue;
+                    }
+                    else
+                        jogo[129] = letra;
+                }
+                else
+                {
+                    printf("Jogada invalida, joga denovo ai pateta.\n");
+                    continue;
+                }
+            }
+            else if (p1[0] == 'C' || p1[0] == 'c')
+            {
+                if (strcmp(p1, "C1") == 0 || strcmp(p1, "c1") == 0)
+                {
+                    if (jogo[41] != ' ')
+                    {
+                        printf("HAHA espertinho, essa ja foi, joga denovo ai.\n");
+                        continue;
+                    }
+                    else
+                        jogo[41] = letra;
+                }
+                else if (strcmp(p1, "C2") == 0 || strcmp(p1, "c2") == 0)
+                {
+                    if (jogo[87] != ' ')
+                    {
+                        printf("HAHA espertinho, essa ja foi, joga denovo ai.\n");
+                        continue;
+                    }
+                    else
+                        jogo[87] = letra;
+                }
+                else if (strcmp(p1, "C3") == 0 || strcmp(p1, "c3") == 0)
+                {
+                    if (jogo[133] != ' ')
+                    {
+                        printf("HAHA espertinho, essa ja foi, joga denovo ai.\n");
+                        continue;
+                    }
+                    else
+                        jogo[133] = letra;
+                }
+                else
+                {
+                    printf("Jogada invalida, joga denovo ai pateta.\n");
+                    continue;
+                }
+            }
+            else
+            {
+                printf("Jogada invalida, joga denovo ai pateta.\n");
+                continue;
+            }
+
+            printf("%s", jogo); // mostra o jogo atualizado
+
+            if (player == 1) // passa a jogada pro proximo player
+                player = 2;
+            else
+                player = 1;
+
+            // se o player 1 marcou 3 casas em sequencia, ele ganha
+            if((jogo[33] == 'X' && jogo[37] == 'X' && jogo[41] == 'X') || (jogo[79] == 'X' && jogo[83] == 'X' && jogo[87] == 'X') || (jogo[125] == 'X' && jogo[129] == 'X' && jogo[133] == 'X') || (jogo[33] == 'X' && jogo[79] == 'X' && jogo[125] == 'X') || (jogo[37] == 'X' && jogo[83] == 'X' && jogo[129] == 'X') || (jogo[41] == 'X' && jogo[87] == 'X' && jogo[133] == 'X') || (jogo[33] == 'X' && jogo[83] == 'X' && jogo[133] == 'X') || (jogo[41] == 'X' && jogo[83] == 'X' && jogo[125] == 'X'))
+            {
+                pont1++;
+                printf("UHUUUUUL PLAYER 1 VOCE E O VENCEDOR DESSA RODADA, VOCE ESTA COM %d PONTO(S) CONTRA %d DO PLAYER 2!!!!\n\n", pont1, pont2);
+                acabou = 1;
+            }
+            // se o player 2 marcou 3 casas em sequencia, ele ganha
+            else if((jogo[33] == 'O' && jogo[37] == 'O' && jogo[41] == 'O') || (jogo[79] == 'O' && jogo[83] == 'O' && jogo[87] == 'O') || (jogo[125] == 'O' && jogo[129] == 'O' && jogo[133] == 'O') || (jogo[33] == 'O' && jogo[79] == 'O' && jogo[125] == 'O') || (jogo[37] == 'O' && jogo[83] == 'O' && jogo[129] == 'O') || (jogo[41] == 'O' && jogo[87] == 'O' && jogo[133] == 'O') || (jogo[33] == 'O' && jogo[83] == 'O' && jogo[133] == 'O') || (jogo[41] == 'O' && jogo[83] == 'O' && jogo[125] == 'O'))
+            {
+                pont2++;
+                printf("PARABENS PLAYER 2, VOCE E O GRANDE VENCEDOR DESTE ROUND, AGORA ESTA COM %d PONTO(S) CONTRA %d DO PLAYER 1!!!!\n\n", pont2, pont1);
+                acabou = 1;
+            }
+            // se ninguem marcou 3 casas em sequencia, deu velha
+            else if (jogo[33] != ' ' && jogo[37] != ' ' && jogo[41] != ' ' && jogo[79] != ' ' && jogo[83] != ' ' && jogo[87] != ' ' && jogo[125] != ' ' && jogo[129] != ' ' && jogo[133] != ' ')
+            {
+                printf("VISH, DEU VELHA\n\n");
+                acabou = 1;
+            }
+
+        }
+
+        printf("Querem mais uma rodada?\n(S para sim e N para nao)\n"); // possibilita os players de comecarem um novo jogo
+        while (getchar() != '\n');
+        scanf("%c", &c);
+
+        if (c == 'S' || c == 's') // se escolheram S, o primeiro while reinicia
+            continue;
+        else // se escolheram N, o jogo termina e mostra na tela o vencedor e com quantos pontos cada um terminou
+        {
+            acabouDeVez = 1;
+            if (pont1 > pont2)
+                printf("E O VENCEDOR EH...........RUFEM OS TAMBORES.................PLAYER 1, VOCE FOI O GRANDE VITORIOSO DE HOJE, COM %d PONTO(S)\nPlayer 2 ficou com %d ponto(s).", pont1, pont2);
+            else if (pont2 > pont1)
+                printf("E O VENCEDOR EH...........RUFEM OS TAMBORES.................PLAYER 2, VOCE FOI O GRANDE VITORIOSO DE HOJE, COM %d PONTO(S)\nPlayer 1 ficou com %d ponto(s).", pont2, pont1);
+            else
+                printf("Hoje nao tivemos vencedores, depois de uma disputa intensa, o empate prevaleceu, ambos terminaram com %d pontos.", pont1);
+
+
+        }
+    }
+
+    return 0;
+}
